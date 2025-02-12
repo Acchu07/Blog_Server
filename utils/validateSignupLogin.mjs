@@ -7,7 +7,7 @@ function validate(fieldName){
 function validatedResult(req,res,next){
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(400).send({ errors: result.array() });
+        return res.status(400).json({ errors: result.array() });
     }
     next();
 }
