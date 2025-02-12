@@ -1,0 +1,17 @@
+GET http://localhost:3000
+###
+POST http://localhost:3000/sign-up
+Content-Type: application/json
+
+{
+    "username": "a",
+    "password": 123
+}
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "password": "password1"
+}
