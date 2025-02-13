@@ -4,19 +4,23 @@ import { validate, validatedResult } from '../utils/validateSignupLogin.mjs';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import '../utils/passportJwT.mjs';
-
+import userClass from '../db/usersDB.mjs';
 
 const router = express.Router();
 
 
-router.post('/sign-up', validate('username'), validate('password'), validatedResult, (req, res) => {
-    users.push(req.body)
-    res.status(200).json('Path A')
+router.post('/sign-up', validate('username'), validate('password'), validatedResult, async (req, res) => {
+    const {username, password} = req.body
+    if(await userClass.searchUser(username)){
+        return res.json('userPresent');
+    };
+    await userClass.createUser(username,password);
+    res.status(200).json('Created User In DB')
 })
 
-router.post('/login', validate('username'), validate('password'), validatedResult, (req, res) => {
-    const { username, password } = req.body;
-    const found = users.find((value) => value.username === username && value.password === password);
+router.post('/login', validate('username'), validate('password'), validatedResult, async(req, res) => {
+    const { username } = req.body;
+    const found = await userClass.searchUser(username);
     if (!found) {
         return res.status(401).json({ message: "Auth Failed" })
     }
