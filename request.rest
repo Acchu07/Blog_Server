@@ -4,17 +4,17 @@ POST http://localhost:3000/user/sign-up
 Content-Type: application/json
 
 {
-    "username": "a",
-    "password": "123"
+    "username": "Guest",
+    "password": "Password"
 }
 ###
 POST http://localhost:3000/user/login
 Content-Type: application/json
 
 {
-    "username": "user2",
-    "password": "password2"
+    "username": "aabc",
+    "password": "1234"
 }
 ###
 GET http://localhost:3000/user/protected
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTczOTM3MTg0MX0.hG3jzdnnrqHEMsJRFuMXsgwTq4qyJtTbaUdoEK7HGUk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYmMiLCJpYXQiOjE3Mzk0NDk3MDJ9.17w4h-x_IXgzfMQuFZKHbr8Pf6Toj7zhXHO_1BR9XA8

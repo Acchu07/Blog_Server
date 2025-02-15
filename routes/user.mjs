@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import '../utils/passportJwT.mjs';
 import userClass from '../db/usersDB.mjs';
+import bcrypt from 'bcryptjs';
 
 const router = express.Router();
 
@@ -14,22 +15,28 @@ router.post('/sign-up', validate('username'), validate('password'), validatedRes
     if(await userClass.searchUser(username)){
         return res.json('userPresent');
     };
-    await userClass.createUser(username,password);
+    await userClass.createUser(username,bcrypt.hashSync(password,10));
     res.status(200).json('Created User In DB')
 })
 
 router.post('/login', validate('username'), validate('password'), validatedResult, async(req, res) => {
-    const { username } = req.body;
+    const { username, password } = req.body;
     const found = await userClass.searchUser(username);
     if (!found) {
-        return res.status(401).json({ message: "Auth Failed" })
+        return res.status(401).json({ message: "Auth Failed user doesnt exist" })
+    }
+    
+    if(!bcrypt.compareSync(password,found.password)){
+        return res.status(401).json({ message: "Auth Failed due to pass" })
     }
 
     const token = jwt.sign({ sub: username }, process.env.ACCESS_TOKEN_SECRET);
-    return res.status(200).json({
+    return res
+    .status(200)
+    .cookie('JwTAccessToken',`Bearer ${token}`,{httpOnly:true})
+    .json({
         message: "Auth Passed",
-        token: token,
-        user: found
+        user: username
     })
 })
 
