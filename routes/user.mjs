@@ -16,7 +16,7 @@ router.post('/sign-up', validate('username'), validate('password'), validatedRes
         return res.json('userPresent');
     };
     await userClass.createUser(username,bcrypt.hashSync(password,10));
-    res.status(200).json('Created User In DB')
+    res.status(200).json('Created User In DB. Please login with the created UserName and Pass')
 })
 
 router.post('/login', validate('username'), validate('password'), validatedResult, async(req, res) => {
