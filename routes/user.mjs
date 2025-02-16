@@ -40,8 +40,15 @@ router.post('/login', validate('username'), validate('password'), validatedResul
     })
 })
 
-router.get("/protected", passport.authenticate('jwt', { session: false }), (req, res) => {
-    return res.status(200).json("YAY! this is a protected Route")
+router.get("/authenticate", passport.authenticate('jwt', { session: false }), (req, res) => {
+    return res.status(200).json({hasToken:true,message:'User Is Logged IN', user: req.user._id})
 })
+
+router.post('/logout', (req, res) => {
+    res
+    .status(200)
+    .clearCookie('JwTAccessToken')
+    .json({ message: "Logged out successfully" });
+});
 
 export default router;
