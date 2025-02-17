@@ -29,11 +29,12 @@ router.post('/login', validate('username'), validate('password'), validatedResul
     if(!bcrypt.compareSync(password,found.password)){
         return res.status(401).json({ message: "Auth Failed due to pass" })
     }
-
+    
+    // .cookie('JwTAccessToken',`Bearer ${token}`,{httpOnly:true})
     const token = jwt.sign({ sub: username }, process.env.ACCESS_TOKEN_SECRET);
     return res
     .status(200)
-    .cookie('JwTAccessToken',`Bearer ${token}`,{httpOnly:true})
+    .cookie('JwTAccessToken',`Bearer ${token}`,{httpOnly:true,secure:true,sameSite:'None'})
     .json({
         message: "Auth Passed",
         user: username

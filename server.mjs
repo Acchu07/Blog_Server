@@ -12,7 +12,7 @@ const port = process.env.PORT;
 
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin:['http://localhost:5173', 'https://magenta-horse-b17f00.netlify.app'],
     credentials:true
 }));
 app.use(passport.initialize());
