@@ -1,7 +1,7 @@
 schemaVersion: 1.0 
  # Example endpoint configuration
 endpoints:
-- name: blogApi
+- name: blog-api
   service:
      port: 3000
   type: REST
